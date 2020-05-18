@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package api;
+
+message UrlMessage {
+    string url = 1;
+}
+message Request {
+    bytes data = 1;
+    int32 messageId = 2;
+    bool finish_write = 3;
+}
+
+message Response {
+    int64 committed_size = 1;
+}
+
+service Proxy {
+    rpc Init(UrlMessage) returns (UrlMessage) {}
+}
+
+service ProxyCaller {
+    rpc Message (stream Request) returns (stream Response) {}
+}
